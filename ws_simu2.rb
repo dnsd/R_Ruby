@@ -3,7 +3,7 @@ require './restroom'
 
 frequency = 3
 use_duration = 1
-population_size = 1000
+population_size = 200
 facilities_per_restroom_range = 1..30
 data = {}
 
@@ -32,3 +32,18 @@ facilities_per_restroom_range.each do |facilities_per_restroom|
     puts("now : facilities_per_restroom = #{facilities_per_restroom}")
 end
 
+puts("write csv...")
+
+CSV.open('result_ws_simu2.csv', 'w') do |csv|
+    lbl = []
+    facilities_per_restroom_range.each {|facilities_per_restroom| lbl << facilities_per_restroom}
+    csv << lbl
+
+    DURATION.times do |t|
+        row = []
+        facilities_per_restroom_range.each do |facilities_per_restroom|
+            row << data[facilities_per_restroom][t]
+        end
+        csv << row
+    end
+end
